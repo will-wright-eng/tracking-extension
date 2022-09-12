@@ -1,11 +1,11 @@
 {
-  "name": "Test 04",
+  "name": "Tracking Extension",
   "action": {
     "default_popup": "popup.html"
   },
   "manifest_version": 3,
-  "version": "0.2.0",
-  "description": "test extension 01",
+  "version": "0.2.1",
+  "description": "Tracking Extension",
   "permissions": [
     "storage",
     "activeTab",
@@ -15,5 +15,10 @@
   "host_permissions": ["<all_urls>"],
   "background": {
     "service_worker": "background.js"
+  },
+ "icons": {
+    "16": "images/icon16.png",
+    "32": "images/icon32.png",
+    "48": "images/icon48.png"
   }
 }
