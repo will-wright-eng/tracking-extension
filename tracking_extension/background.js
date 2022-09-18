@@ -31,19 +31,31 @@ async function addSysData(payload) {
   let storedData = await getAllStorageSyncData(); // promise
   var userId = {info_user_id: storedData.userid}; // json
 
+  let ts = new Date().toISOString();
+  var timestamp = {created_timestamp: ts};
+
   // combine objects
-  var sysData = Object.assign({}, platInfo, manVersion, userId, payload);
+  var sysData = Object.assign({}, platInfo, manVersion, userId, payload, timestamp);
   console.log(sysData);
   return sysData;
 }
 
+function buildUrl(jsonData) {
+    let bucket = 'bucket=knowledgeproject';
+    let objName = 'tracking_extension_'+jsonData.created_timestamp+'.json';
+    let key = ['key=dev/api-gateway',jsonData.info_user_id,objName].join('/');
+    // let port = 'http://127.0.'
+    // let manteau = '0.1:8000/acceptdata'
+    let url = [port,manteau,'?',bucket,'&',key].join('');
+    console.log(url);
+    return url;
+}
 
 async function postUrl(jsonData) {
-    let payload = JSON.stringify(await addSysData(jsonData));
-    let port = 'http://127.0.'
-    let manteau = '0.1:8000/acceptdata'
-    fetch(port+manteau, {
-        method: 'POST',
+    let finalData = await addSysData(jsonData)
+    let payload = JSON.stringify(finalData);
+    fetch(buildUrl(finalData), {
+        method: 'PUT',
         headers: {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
