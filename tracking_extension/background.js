@@ -56,23 +56,16 @@ async function postUrl(jsonData) {
         else return response.json();
     })
     .then((data) => {
-    // this.setState({ isLoading: false, downlines: data.response });
     console.log("DATA STORED");
     })
     .catch((error) => {
     console.log('error: ' + error);
-    // this.setState({ requestFailed: true });
     });
 }
 
 chrome.tabs.onUpdated.addListener( async (tabId, changeInfo, tab) => {
   if (changeInfo.status === "complete") {
     console.log("--- onUpdated ---");
-    // console.log("tab url - "+tab.url);
-    // console.log("tabId - "+tabId);
-    // console.log("tab title - "+tab.title)
-    // console.log("tab windowId - "+tab.windowId)
-
     let jsonData = {
         tab_event: "chrome.tabs.onUpdated",
         tab_url: tab.url,
@@ -86,8 +79,6 @@ chrome.tabs.onUpdated.addListener( async (tabId, changeInfo, tab) => {
 
 chrome.tabs.onRemoved.addListener( async (tabId, removeInfo) => {
     console.log("--- onRemoved ---");
-    // console.log("tabId - "+tabId);
-    // console.log("windowId - "+removeInfo.windowId);
     let jsonData = {
         tab_event: "chrome.tabs.onRemoved",
         tab_id: tabId,
