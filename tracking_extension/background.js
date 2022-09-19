@@ -44,8 +44,7 @@ function buildUrl(jsonData) {
     let bucket = 'bucket=knowledgeproject';
     let objName = 'tracking_extension_'+jsonData.created_timestamp+'.json';
     let key = ['key=dev/api-gateway',jsonData.info_user_id,objName].join('/');
-    // let port = 'http://127.0.'
-    // let manteau = '0.1:8000/acceptdata'
+
     let url = [port,manteau,'?',bucket,'&',key].join('');
     console.log(url);
     return url;
@@ -65,7 +64,7 @@ async function postUrl(jsonData) {
     .then((response) => {
         console.log('response: '+ response.status.toString());
         if(!response.ok) throw new Error(response.status);
-        else return response.json();
+        else return console.log('all good babby babby...')
     })
     .then((data) => {
     console.log("DATA STORED");
@@ -77,7 +76,7 @@ async function postUrl(jsonData) {
 
 chrome.tabs.onUpdated.addListener( async (tabId, changeInfo, tab) => {
   if (changeInfo.status === "complete") {
-    console.log("--- onUpdated ---");
+    // console.log("--- onUpdated ---");
     let jsonData = {
         tab_event: "chrome.tabs.onUpdated",
         tab_url: tab.url,
@@ -90,7 +89,7 @@ chrome.tabs.onUpdated.addListener( async (tabId, changeInfo, tab) => {
 });
 
 chrome.tabs.onRemoved.addListener( async (tabId, removeInfo) => {
-    console.log("--- onRemoved ---");
+    // console.log("--- onRemoved ---");
     let jsonData = {
         tab_event: "chrome.tabs.onRemoved",
         tab_id: tabId,
@@ -105,10 +104,8 @@ chrome.runtime.onMessage.addListener(
     sendResponse({farewell: "goodbye"});
 
     let tab = await chrome.tabs.get(request.tabId);
-    console.log("--- extension ---");
-
+    // console.log("--- extension ---");
     let tag = request.tag;
-    console.log("tag - "+tag);
 
     let jsonData = {
         tab_event: "chrome.runtime.onMessage",
@@ -121,7 +118,6 @@ chrome.runtime.onMessage.addListener(
     postUrl(jsonData);
   }
 );
-
 
 function getRandomToken() {
     // E.g. 8 * 32 = 256 bits token
@@ -138,11 +134,10 @@ function getRandomToken() {
 function createNewUserToken(userid) {
     userid = getRandomToken();
     chrome.storage.sync.set({userid: userid}, function() {
-    console.log(userid);
+        console.log(userid);
+        return userid;
     });
 }
-
-
 
 chrome.runtime.onInstalled.addListener(async () => {
     chrome.storage.sync.get('userid', function(items) {
@@ -152,6 +147,11 @@ chrome.runtime.onInstalled.addListener(async () => {
         } else {
             console.log('creating userid token');
             createNewUserToken(userid);
+            // setup listener for each new extension update
+            // remove repetative data from addSysData and insert only once
+            // modify key path to be dev/api-gateway/metadata/<info_user_id>/metadata_<timestamp>.json
+            // var newUserId = {info_user_id: createNewUserToken(userid)}
+            // postUrl(newUserId);
         }
     });
 });
