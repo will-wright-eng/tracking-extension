@@ -36,7 +36,6 @@ async function addSysData(payload) {
 
   // combine objects
   var sysData = Object.assign({}, platInfo, manVersion, userId, payload, timestamp);
-  console.log(sysData);
   return sysData;
 }
 
@@ -44,9 +43,9 @@ function buildUrl(jsonData) {
     let bucket = 'bucket=knowledgeproject';
     let objName = 'tracking_extension_'+jsonData.created_timestamp+'.json';
     let key = ['key=dev/api-gateway',jsonData.info_user_id,objName].join('/');
-
+    let port = ''
+    let manteau = ''
     let url = [port,manteau,'?',bucket,'&',key].join('');
-    console.log(url);
     return url;
 }
 
@@ -76,7 +75,6 @@ async function postUrl(jsonData) {
 
 chrome.tabs.onUpdated.addListener( async (tabId, changeInfo, tab) => {
   if (changeInfo.status === "complete") {
-    // console.log("--- onUpdated ---");
     let jsonData = {
         tab_event: "chrome.tabs.onUpdated",
         tab_url: tab.url,
@@ -89,7 +87,6 @@ chrome.tabs.onUpdated.addListener( async (tabId, changeInfo, tab) => {
 });
 
 chrome.tabs.onRemoved.addListener( async (tabId, removeInfo) => {
-    // console.log("--- onRemoved ---");
     let jsonData = {
         tab_event: "chrome.tabs.onRemoved",
         tab_id: tabId,
@@ -104,7 +101,6 @@ chrome.runtime.onMessage.addListener(
     sendResponse({farewell: "goodbye"});
 
     let tab = await chrome.tabs.get(request.tabId);
-    // console.log("--- extension ---");
     let tag = request.tag;
 
     let jsonData = {
