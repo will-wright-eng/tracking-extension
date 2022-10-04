@@ -1,3 +1,7 @@
+import getApiInfo from './secret.js';
+
+var apiInfo = getApiInfo();
+
 function gotPlatformInfo(info) {
   var platInfo = {
     info_os: info.os,
@@ -39,13 +43,25 @@ async function addSysData(payload) {
   return sysData;
 }
 
+function makeid(length) {
+    var result           = '';
+    var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var charactersLength = characters.length;
+    for ( var i = 0; i < length; i++ ) {
+      result += characters.charAt(Math.floor(Math.random() * 
+ charactersLength));
+   }
+   return result;
+}
+// eg console.log(makeid(5));
+
 function buildUrl(jsonData) {
-    let bucket = 'bucket=knowledgeproject';
-    let objName = 'tracking_extension_'+jsonData.created_timestamp+'.json';
-    let key = ['key=dev/api-gateway',jsonData.info_user_id,objName].join('/');
-    let port = ''
-    let manteau = ''
-    let url = [port,manteau,'?',bucket,'&',key].join('');
+    let bucket = 'bucket='+apiInfo.bucket;
+    let objName = ['event_',jsonData.created_timestamp,'-',makeid(5),'.json'].join('');
+    let key = ['key=prod',jsonData.manifest_version,jsonData.info_user_id,objName].join('/');
+    let portmanteau = apiInfo.portmanteau
+    let url = [portmanteau,'?',bucket,'&',key].join('');
+    console.log(url)
     return url;
 }
 
