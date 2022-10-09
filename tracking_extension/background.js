@@ -88,15 +88,7 @@ async function postUrl(jsonData) {
     });
 }
 
-function sleep(miliseconds) {
-   var currentTime = new Date().getTime();
-
-   while (currentTime + miliseconds >= new Date().getTime()) {
-   }
-}
-
-// fires multiple times for each iframe in page
-// 
+// bug: fires multiple times for each iframe in page
 chrome.tabs.onUpdated.addListener( async (tabId, changeInfo, tab) => {
     var url = tab.url;
     if (url !== undefined && changeInfo.status == "complete") {
