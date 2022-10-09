@@ -48,8 +48,7 @@ function makeid(length) {
     var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
     var charactersLength = characters.length;
     for ( var i = 0; i < length; i++ ) {
-      result += characters.charAt(Math.floor(Math.random() * 
- charactersLength));
+      result += characters.charAt(Math.floor(Math.random() * charactersLength));
    }
    return result;
 }
@@ -89,8 +88,10 @@ async function postUrl(jsonData) {
     });
 }
 
+// bug: fires multiple times for each iframe in page
 chrome.tabs.onUpdated.addListener( async (tabId, changeInfo, tab) => {
-  if (changeInfo.status === "complete") {
+    var url = tab.url;
+    if (url !== undefined && changeInfo.status == "complete") {
     let jsonData = {
         tab_event: "chrome.tabs.onUpdated",
         tab_url: tab.url,
@@ -137,7 +138,7 @@ function getRandomToken() {
     crypto.getRandomValues(randomPool);
     var hex = '';
     for (var i = 0; i < randomPool.length; ++i) {
-        hex += randomPool[i].toString(16);
+        hex += randomPool[i].toString(10);
     }
     // E.g. db18458e2782b2b77e36769c569e263a53885a9944dd0a861e5064eac16f1a
     return hex;
