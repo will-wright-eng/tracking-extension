@@ -16,9 +16,7 @@ repos:
     - --autofix
     - --preserve-quotes
     - --indent=2
-# - repo: https://github.com/pre-commit/mirrors-eslint
-#   rev: v8.24.0
-#   hooks:
-#   - id: eslint
-#   args: ['--fix']
-#   additional_dependencies: ['eslint-config-google@0.7.1']
+- repo: https://github.com/markdownlint/markdownlint
+  rev: v0.11.0
+  hooks:
+  - id: markdownlint
