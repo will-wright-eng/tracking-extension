@@ -26,5 +26,5 @@ repos:
   - id: markdownlint
     args:
     - --fix
-    # verbose: true
-    # entry: bash -c 'markdownlint "$@" || true' --
+    verbose: true
+    entry: bash -c 'markdownlint "$@" || true' --
