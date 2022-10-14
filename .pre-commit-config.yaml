@@ -27,4 +27,4 @@ repos:
     args:
     - --fix
     verbose: true
-    entry: bash -c 'mdl "$@" || true' --
+    entry: bash -c 'markdownlint "$@" || true' --
