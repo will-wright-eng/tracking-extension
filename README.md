@@ -1,5 +1,22 @@
 # tracking-extension
 
+## archetecture
+- `background.js`: split code into logical groupings
+    - startup & user profiling: send system data along with userid upon startup so as to decrease message size and process time
+    - listeners & UI events: might split these into individual modules but they work together for now
+- popup: js/html/css
+    - add popup.html headers for easy access to homepage, useid (copy), and manual control over feature toggles
+- `content-script.js`: grab text from page when tagged (will need join keys if message is being sent separately... not ideal, try to send async so that the tag, page info, and content are bundled into single message)
+
+## publish extension
+- https://developer.chrome.com/docs/webstore/publish/
+- setup and create developer account
+- publish hello world extension
+- publish tracking-extension manually
+- automate tracking-extension publish via github actions
+
+> before publishing I need to create a homepage that allows for the api address to be manually entered in (along with storage of the url within sync.storage, like the usesr token)
+
 ## todo
 - as es linter check
 - keyboard shortcut to auto-tag with default string
