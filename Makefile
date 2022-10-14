@@ -24,6 +24,7 @@ run-pc: ## git add commit run --all-files
 	@pre-commit run --all-files
 	git status
 	@git commit -m "pre-commit run --all-files"
+	git status
 
 run-es-check: ## check eslinter outputs
 	@./node_modules/.bin/eslint tracking_extension/
