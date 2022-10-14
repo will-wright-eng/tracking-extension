@@ -31,7 +31,7 @@ async function handleFormSubmit(event) {
   });
 
   console.log("form submitted")
-  
+
 }
 
 function setMessage(str) {
