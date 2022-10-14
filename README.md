@@ -1,12 +1,32 @@
 # tracking-extension
 
+## archetecture
+
+- `background.js`: split code into logical groupings
+    - startup & user profiling: send system data along with userid upon startup so as to decrease message size and process time
+    - listeners & UI events: might split these into individual modules but they work together for now
+- popup: js/html/css
+    - add popup.html headers for easy access to homepage, useid (copy), and manual control over feature toggles
+- `content-script.js`: grab text from page when tagged (will need join keys if message is being sent separately... not ideal, try to send async so that the tag, page info, and content are bundled into single message)
+
+## publish extension
+
+- <https://developer.chrome.com/docs/webstore/publish/>
+- setup and create developer account
+- publish hello world extension
+- publish tracking-extension manually
+- automate tracking-extension publish via github actions
+
+> before publishing I need to create a homepage that allows for the api address to be manually entered in (along with storage of the url within sync.storage, like the usesr token)
+
 ## todo
+
 - as es linter check
 - keyboard shortcut to auto-tag with default string
-	- checkbox to set default tag string
+    - checkbox to set default tag string
 - header to popup
-	- home
-	- user id (copy text)
+    - home
+    - user id (copy text)
 
 
 ### onInstalled
@@ -31,10 +51,12 @@ chrome.runtime.onInstalled.addListener(async () => {
 ```
 
 ### thoughts on building edges for navigation graph
+
 - new listeners
-- https://developer.chrome.com/docs/extensions/reference/webNavigation/#event-onTabReplaced
+- <https://developer.chrome.com/docs/extensions/reference/webNavigation/#event-onTabReplaced>
 
 - webNav events give details on where you're going but not where you've been
+
 ```js
 chrome.webNavigation.onBeforeNavigate.addListener( async (details) => {
     console.log('-- onBeforeNavigate --');
@@ -63,6 +85,7 @@ chrome.webNavigation.onCompleted.addListener( async (details) => {
 ```
 
 what I need are a set of navigation events that define node and edges
+
 - navigate to page, between pages, by link, reload, back/forward
 - set of ingress and egress events
 - how to define an edge? --> two urls with some kind of way of connecting the two
@@ -78,4 +101,4 @@ what I need are a set of navigation events that define node and edges
     - related site content
     - embedded links (webNav.onCommitted)
     - Omnibox search/ search engine query
-- https://github.com/GoogleChrome/chrome-extensions-samples
+- <https://github.com/GoogleChrome/chrome-extensions-samples>
