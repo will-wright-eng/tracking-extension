@@ -60,7 +60,7 @@ function buildUrl(jsonData) {
     let key = ['key=prod',jsonData.manifest_version,jsonData.info_user_id,objName].join('/');
     let portmanteau = apiInfo.portmanteau
     let url = [portmanteau,'?',bucket,'&',key].join('');
-    console.log(url)
+    // console.log(url)
     return url;
 }
 
@@ -76,12 +76,12 @@ async function postUrl(jsonData) {
         body: payload
     })
     .then((response) => {
-        console.log('response: '+ response.status.toString());
+        // console.log('response: '+ response.status.toString());
         if(!response.ok) throw new Error(response.status);
-        else return console.log('all good babby babby...')
+        else return // console.log('all good babby babby...')
     })
     .then((data) => {
-    console.log("DATA STORED");
+    // console.log("DATA STORED");
     })
     .catch((error) => {
     console.log('error: ' + error);
@@ -168,3 +168,47 @@ chrome.runtime.onInstalled.addListener(async () => {
         }
     });
 });
+
+// new listeners
+// webNav events give details on where you're going but not where you've been
+chrome.webNavigation.onBeforeNavigate.addListener( async (details) => {
+    console.log('-- onBeforeNavigate --');
+    console.log(details);
+});
+
+chrome.webNavigation.onCommitted.addListener( async (details) => {
+    console.log('-- onCommitted --');
+    if (details.transitionType == 'link') {
+        // console.log(details);
+        console.log(details.tabId);
+        
+        const tab = await chrome.tabs.get(details.tabId);
+        console.log(tab)
+        console.log(tab.url)
+
+        console.log(details.transitionType);
+        console.log(details.url);        
+    }
+});
+
+chrome.webNavigation.onCompleted.addListener( async (details) => {
+    console.log('-- onCompleted --');
+    console.log(details);
+});
+
+// what I need are a set of navigation events that define node and edges
+// - navigate to page, between pages, by link, reload, back/forward
+// - set of ingress and egress events
+// - how to define an edge? --> two urls with some kind of way of connecting the two
+// - two events tied together by (primary keys) time sequence, tabId, tabWindowId, etc -- other key identifiers
+
+// - what are the boundry conditions of a session? since navigation happens between windows and tabs, it can't be bound by those ids
+// - session: defines a set of events
+// - node: url or site visited
+// - edge: 
+//     - nav within a tab
+//     - nav within a window
+//     - proximity in time
+//     - related site content
+//     - embedded links (webNav.onCommitted)
+//     - Omnibox search/ search engine query
