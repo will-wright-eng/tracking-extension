@@ -21,9 +21,8 @@ pc-init: ## reset pre-commit
 
 run-pc: ## git add commit run --all-files
 	@git add .
-	@git commit -m "pre-commit run --all-files"
 	@pre-commit run --all-files
-	@git status
+	git status
 	@git commit -m "pre-commit run --all-files"
 
 run-es-check: ## check eslinter outputs
