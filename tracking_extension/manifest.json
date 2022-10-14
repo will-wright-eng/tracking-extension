@@ -4,13 +4,14 @@
     "default_popup": "popup.html"
   },
   "manifest_version": 3,
-  "version": "0.5.6",
+  "version": "0.6.0",
   "description": "Tracking Extension",
   "permissions": [
     "storage",
     "activeTab",
     "tabs",
-    "scripting"
+    "scripting",
+    "webNavigation"
   ],
   "host_permissions": ["<all_urls>"],
   "background": {
