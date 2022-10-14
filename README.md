@@ -33,6 +33,7 @@ chrome.runtime.onInstalled.addListener(async () => {
 ### thoughts on building edges for navigation graph
 - new listeners
 - https://developer.chrome.com/docs/extensions/reference/webNavigation/#event-onTabReplaced
+
 - webNav events give details on where you're going but not where you've been
 ```js
 chrome.webNavigation.onBeforeNavigate.addListener( async (details) => {
@@ -45,13 +46,13 @@ chrome.webNavigation.onCommitted.addListener( async (details) => {
     if (details.transitionType == 'link') {
         // console.log(details);
         console.log(details.tabId);
-        
+
         const tab = await chrome.tabs.get(details.tabId);
         console.log(tab)
         console.log(tab.url)
 
         console.log(details.transitionType);
-        console.log(details.url);        
+        console.log(details.url);
     }
 });
 
@@ -70,10 +71,11 @@ what I need are a set of navigation events that define node and edges
 - what are the boundry conditions of a session? since navigation happens between windows and tabs, it can't be bound by those ids
 - session: defines a set of events
 - node: url or site visited
-- edge: 
+- edge:
     - nav within a tab
     - nav within a window
     - proximity in time
     - related site content
     - embedded links (webNav.onCommitted)
     - Omnibox search/ search engine query
+- https://github.com/GoogleChrome/chrome-extensions-samples
