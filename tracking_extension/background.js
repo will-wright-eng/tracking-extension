@@ -52,7 +52,6 @@ function makeid(length) {
    }
    return result;
 }
-// eg console.log(makeid(5));
 
 function buildUrl(jsonData) {
     let bucket = 'bucket='+apiInfo.bucket;

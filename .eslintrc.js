@@ -6,8 +6,9 @@ module.exports = {
   'extends': 'google',
   'overrides': [
   ],
-  'parserOptions': {
-    'ecmaVersion': 'latest',
+  "parserOptions": {
+  "ecmaVersion": 2020,
+  "sourceType": "module",
   },
   'rules': {
   },
