@@ -1,15 +1,12 @@
 # #* Variables
-# SHELL := /usr/bin/env bash
-# PYTHON := python3
-# PYTHONPATH := `pwd`
 
-# #* Docker variables
-# IMAGE := tracking_ui
-# VERSION := latest
+# #* Setup
 
 .PHONY: $(shell sed -n -e '/^$$/ { n ; /^[^ .\#][^ ]*:/ { s/:.*$$// ; p ; } ; }' $(MAKEFILE_LIST))
 
 .DEFAULT_GOAL := help
+
+# #* Commands
 
 help: ## list make commands
 	@echo ${MAKEFILE_LIST}
