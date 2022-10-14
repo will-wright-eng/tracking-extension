@@ -12,9 +12,9 @@ repos:
     rev: v8.25.0
     hooks:
     -   id: eslint
-        # additional_dependencies:
+        additional_dependencies:
+        -   babel-eslint@6.1.2
+        -   eslint-plugin-react@6.10.3
         # -   eslint@4.15.0
         # -   eslint-config-google@0.7.1
         # -   eslint-loader@1.6.1
-        # -   eslint-plugin-react@6.10.3
-        # -   babel-eslint@6.1.2
