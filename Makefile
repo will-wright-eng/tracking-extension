@@ -1,15 +1,12 @@
 # #* Variables
-# SHELL := /usr/bin/env bash
-# PYTHON := python3
-# PYTHONPATH := `pwd`
 
-# #* Docker variables
-# IMAGE := tracking_ui
-# VERSION := latest
+# #* Setup
 
 .PHONY: $(shell sed -n -e '/^$$/ { n ; /^[^ .\#][^ ]*:/ { s/:.*$$// ; p ; } ; }' $(MAKEFILE_LIST))
 
 .DEFAULT_GOAL := help
+
+# #* Commands
 
 help: ## list make commands
 	@echo ${MAKEFILE_LIST}
@@ -24,8 +21,17 @@ pc-init: ## reset pre-commit
 
 run-pc: ## git add commit run --all-files
 	@git add .
-	@git commit -m "pre-commit run --all-files"
 	@pre-commit run --all-files
+	git status
+	@git commit -m "pre-commit run --all-files"
+	git status
+
+git: ## run git add commit push flow
+	@git add .
+	@pre-commit run --all-files
+	git status
+	@git commit -m "make git"
+	@git push
 
 run-es-check: ## check eslinter outputs
 	@./node_modules/.bin/eslint tracking_extension/

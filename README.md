@@ -12,6 +12,8 @@
 ## publish extension
 
 - <https://developer.chrome.com/docs/webstore/publish/>
+- [github actions](https://github.com/marketplace?type=actions&query=Chrome+extension+upload+action+)
+    - [anther one](https://github.com/marketplace/actions/chrome-extension-upload-action)
 - setup and create developer account
 - publish hello world extension
 - publish tracking-extension manually

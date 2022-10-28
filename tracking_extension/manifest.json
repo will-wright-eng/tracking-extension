@@ -4,7 +4,7 @@
     "default_popup": "popup.html"
   },
   "manifest_version": 3,
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "Tracking Extension",
   "permissions": [
     "storage",
