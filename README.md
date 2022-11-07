@@ -104,3 +104,53 @@ what I need are a set of navigation events that define node and edges
     - embedded links (webNav.onCommitted)
     - Omnibox search/ search engine query
 - <https://github.com/GoogleChrome/chrome-extensions-samples>
+
+
+## publish extension
+
+[Publish in the Chrome Web Store](https://developer.chrome.com/docs/webstore/publish/)
+
+### GitHub Actions
+
+1. <https://github.com/marketplace/actions/chrome-extension-upload-action>
+2. <https://github.com/marketplace/actions/chrome-extension-upload-publish>
+
+[*example*](https://github.com/fahad-israr/browser-extension-for-starfix/blob/a58f0ae376519ed3a2a94bf7010d3cb254e80e89/.github/workflows/browser-extension-release-chrome-webstore.yml)
+
+```yaml
+name: "Browser-Extension-Release-Chrome-Webstore"
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - 'browser-extension/**'
+  release:
+    types: [created]
+
+jobs:
+  chrome-extension:
+    name: "zip-files"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: papeloto/action-zip@v1
+        with:
+          files: browser-extension/
+          dest: starfix-extension-chrome.zip
+
+      - name: "Upload Artifact"
+        uses: actions/upload-artifact@v1
+        with:
+          name: starfix-extension-chrome.zip
+          path: ${{ github.workspace }}/starfix-extension-chrome.zip
+
+      - name: "publish extension on chrome webstore"
+        uses: Klemensas/chrome-extension-upload-action@master
+        with:
+          refresh-token: ${{ secrets.GOOGLE_CHROME_REFRESH_TOKEN }}
+          client-id: ${{ secrets.GOOGLE_CHROME_CLIENT_ID }}
+          file-name: starfix-extension-chrome.zip
+          app-id: 'ojlhpgekmmemhihkigibkhehlejkjdmo'
+          publish : true
+```
