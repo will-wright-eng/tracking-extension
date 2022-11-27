@@ -26,7 +26,10 @@ async function addSysData(payload) {
   const platInfo = await gettingInfo.then(gotPlatformInfo); // json
 
   const manInfo = chrome.runtime.getManifest();
-  const manVersion = {manifest_version: manInfo.version}; // json
+  const manVersion = {
+    manifest_version: manInfo.version,
+    manifest_name: manInfo.name,
+  }; // json
 
   const storedData = await getAllStorageSyncData(); // promise
   const userId = {info_user_id: storedData.userid}; // json
@@ -52,9 +55,10 @@ function makeid(length) {
 function buildUrl(jsonData) {
   const bucket = 'bucket='+apiInfo.bucket;
   const objName = ['event_', jsonData.created_timestamp, '-', makeid(5), '.json'].join('');
-  const key = ['key=prod', jsonData.manifest_version, jsonData.info_user_id, objName].join('/');
+  const key = ['key='+jsonData.manifest_name.toLowerCase().replace(' ', '-'), 'prod', jsonData.manifest_version, jsonData.info_user_id, objName].join('/');
   const portmanteau = apiInfo.portmanteau;
   const url = [portmanteau, '?', bucket, '&', key].join('');
+  console.log(url);
   return url;
 }
 
