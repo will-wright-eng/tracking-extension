@@ -38,7 +38,14 @@ async function addSysData(payload) {
   const timestamp = {created_timestamp: ts};
 
   // combine objects
-  const sysData = Object.assign({}, platInfo, manVersion, userId, payload, timestamp);
+  const sysData = Object.assign(
+      {},
+      platInfo,
+      manVersion,
+      userId,
+      payload,
+      timestamp,
+  );
   return sysData;
 }
 
@@ -54,8 +61,20 @@ function makeid(length) {
 
 function buildUrl(jsonData) {
   const bucket = 'bucket='+apiInfo.bucket;
-  const objName = ['event_', jsonData.created_timestamp, '-', makeid(5), '.json'].join('');
-  const key = ['key='+jsonData.manifest_name.toLowerCase().replace(' ', '-'), 'prod', jsonData.manifest_version, jsonData.info_user_id, objName].join('/');
+  const objName = [
+    'event_',
+    jsonData.created_timestamp,
+    '-',
+    makeid(5),
+    '.json',
+  ].join('');
+  const key = [
+    'key='+jsonData.manifest_name.toLowerCase().replace(' ', '-'),
+    'prod',
+    jsonData.manifest_version,
+    jsonData.info_user_id,
+    objName,
+  ].join('/');
   const portmanteau = apiInfo.portmanteau;
   const url = [portmanteau, '?', bucket, '&', key].join('');
   console.log(url);
