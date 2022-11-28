@@ -1,6 +1,7 @@
 .DS_Store
 secret.js
 *.zip
+*.png
 
 package-lock.json
 package.json
