@@ -11,7 +11,6 @@ function createAlarm() {
 createAlarm();
 
 async function postHeartbeat() {
-  // const tab = await chrome.tabs.get(request.tabId);
   const windowsInfo = await chrome.windows.getAll({populate: true});
   const windowsIds = windowsInfo.map(({ id }) => id );
   const tabCounts = windowsInfo.map(({ tabs }) => tabs.length );
@@ -32,7 +31,6 @@ async function postHeartbeat() {
       tab_count: sum,
     }
   };
-  // console.log(jsonData);
   postUrl(jsonData);
 }
 

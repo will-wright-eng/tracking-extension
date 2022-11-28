@@ -11,12 +11,9 @@ async function copyToTheClipboard(textToCopy){
   document.body.removeChild(el);
 }
 
-// const button = document.querySelector("button");
 const jsButton = document.querySelector("button#json-button");
 jsButton.addEventListener("click", async () => {
   const windowsInfo = await chrome.windows.getAll({populate: true});
-  // const tabs = await chrome.tabs.query({currentWindow: true});
-  // const tabIds = await tabs.map(({ id }) => id);
   copyToTheClipboard(JSON.stringify(windowsInfo));
 });
 

@@ -48,19 +48,17 @@ function buildUrl(jsonData) {
   const key = [
     'key='+jsonData.manifest_name.toLowerCase().replace(" ","-"),
     jsonData.manifest_desc,
-    jsonData.manifest_version,
+    jsonData.manifest_version.split(".").slice(0,2).join("."),
     jsonData.info_user_id,
     objName
   ].join('/');
   const portmanteau = apiInfo.portmanteau;
   const url = [portmanteau, '?', bucket, '&', key].join('');
-  console.log(url);
   return url;
 }
 
 async function postUrl(jsonData) {
   const finalData = await addSysData(jsonData);
-  console.log(finalData);
   const payload = JSON.stringify(finalData);
   fetch(buildUrl(finalData), {
     method: 'PUT',
@@ -74,7 +72,7 @@ async function postUrl(jsonData) {
         if (!response.ok) throw new Error(response.status);
       })
       .then((data) => {
-        console.log('data uploaded');
+        console.log('still alive');
       })
       .catch((error) => {
         console.log('error: ' + error);
