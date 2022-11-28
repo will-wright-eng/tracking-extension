@@ -77,6 +77,8 @@ def main():
     new = trim_long_side(im)
     if new:
         new.save(filename,format='png')
+    else:
+        im.save(filename,format='png')
 
     create_icon_series(filename)
     return True
