@@ -5,7 +5,3 @@
 // and injected into the same or different pages.
 
 console.log("This prints to the console of the page")
-
-chrome.runtime.onSuspend.addListener(() => {
-  console.log("Unloading service worker");
-});

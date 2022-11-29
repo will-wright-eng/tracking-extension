@@ -3,7 +3,7 @@
     "manifest_version": 3,
     "name": "Chrome Extension v3 Starter",
     "description": "A minimal example of a chrome extension using manifest v3",
-    "version": "0.0.1",
+    "version": "0.1.2",
     "icons": {
         "16": "images/icon-16.png",
         "32": "images/icon-32.png",
