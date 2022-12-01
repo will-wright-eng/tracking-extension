@@ -29,6 +29,12 @@ python -m pip install Pillow
 python gen-extension-icons.py 3-incandescent-light-bulb-science-photo-library.jpg lightbulb
 ```
 
+```python
+args = sys.argv[1:]
+input_img = args[0] # eg 3-incandescent-light-bulb-science-photo-library.jpg
+output_name = args[1] # eg lightbulb
+```
+
 *output*
 
 ```text

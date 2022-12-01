@@ -5,6 +5,8 @@
 console.log("This prints to the console of the service worker (background script)")
 
 // Importing and using functionality from external files is also possible.
+// Note: not compatible when content scripts are configured as modules in manifest.json, ie:
+	// import customFunction from './service-worker-utils.js';
 importScripts('service-worker-utils.js')
 
 // If you want to import a file that is deeper in the file hierarchy of your

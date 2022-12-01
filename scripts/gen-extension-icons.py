@@ -3,85 +3,102 @@ import sys
 
 from PIL import Image
 
-def get_img(input_img: str, output_name: str):
-    im = Image.open(input_img)
-    os.rename(input_img, f'{output_name}-original.png')
-    return im
 
-def trim_long_side(im):
-    '''
-    which side is shorter
-        - vertical == 1 (height)
-        - horizontal == 0 (width)
+class generateIcons:
+    def __init__(self, input_img, output_name):
+        self.input_img = input_img
+        self.filename = f"{output_name}.png"
+        self.output_name = output_name
+        self.icon_dir = self.filename.replace(".png", "")
+        self.make_dir()
 
-    if horiz is shorter, trim vert
-    if vert is shorter, trim horiz
-    '''
-    if min(im.size) == max(im.size):
-        return False
+    def make_dir(self):
+        """docstring"""
+        try:
+            os.mkdir(self.icon_dir)
+        except Exception as e:
+            print(e)
 
-    side_shorter = im.size.index(min(im.size))
-    side_trim = 0 if side_shorter == 1 else 1
-    print('im.size:', im.size)
-    print('side_shorter:',side_shorter)
-    print('side_trim:',side_trim)
+    def get_img(self):
+        self.im = Image.open(self.input_img)
+        os.rename(self.input_img, f"{self.output_name}-original.png")
 
-    # by how much
-    trim_by = im.size[side_trim] - im.size[side_shorter]
-    # print(im.size[side_trim], im.size[side_shorter])
-    print('trim_by:',trim_by)
+    def cleanup_imgs(self):
+        os.rename(f"{self.output_name}-original.png", f"{self.icon_dir}/{self.output_name}-original.png")
+        os.rename(f"{self.output_name}.png", f"{self.icon_dir}/{self.output_name}.png")
 
-    # create box based on side_trim
-    # box = (left, upper, right, lower)
-    box_map = {
-        1: (0, int(trim_by/2), min(im.size), max(im.size) - int(trim_by/2)), # trim vert
-        0: (int(trim_by/2), 0, max(im.size) - int(trim_by/2), min(im.size)), # trim horiz
-    }
-    box = box_map.get(side_trim)
-    print('box = (left, upper, right, lower)')
-    print('box:',box)
-    # crop
-    return im.crop(box)
+    def trim_long_side(self):
+        """
+        which side is shorter
+            - vertical == 1 (height)
+            - horizontal == 0 (width)
+
+        if horiz is shorter, trim vert
+        if vert is shorter, trim horiz
+        """
+        if min(self.im.size) == max(self.im.size):
+            return False
+
+        side_shorter = self.im.size.index(min(self.im.size))
+        side_trim = 0 if side_shorter == 1 else 1
+        trim_by = self.im.size[side_trim] - self.im.size[side_shorter]
+        print(
+            "\n",
+            "im.size:\t",
+            self.im.size,
+            "\n",
+            "side_shorter:\t",
+            side_shorter,
+            "\n",
+            "side_trim:\t",
+            side_trim,
+            "\n",
+            "trim_by:",
+            trim_by,
+        )
+
+        # box = (left, upper, right, lower)
+        box_map = {
+            1: (0, int(trim_by / 2), min(self.im.size), max(self.im.size) - int(trim_by / 2)),  # trim vert
+            0: (int(trim_by / 2), 0, max(self.im.size) - int(trim_by / 2), min(self.im.size)),  # trim horiz
+        }
+        box = box_map.get(side_trim)
+        print("box = (left, upper, right, lower)", "\n", "box:", box)
+
+        self.im_new = self.im.crop(box)
+        return True
+
+    def create_icon_series(self):
+        """
+        resize to 128 48 32 16
+        resolution unchanged
+        """
+        icon_sizes = [128, 48, 32, 16]
+
+        with Image.open(self.filename) as im:
+            for icon in icon_sizes:
+                icon_filename = f"{self.icon_dir}/icon-{str(icon)}.png"
+                tmp = im.resize((icon, icon))
+                tmp.save(icon_filename, format="png")
+
+    def main(self):
+        """docstring"""
+        self.get_img()
+        resp = self.trim_long_side()
+        if resp:
+            self.im_new.save(self.filename, format="png")
+        else:
+            self.im.save(self.filename, format="png")
+
+        self.create_icon_series()
+        self.cleanup_imgs()
+        return True
 
 
-def make_dir(dir_name):
-    """docstring"""
-    try:
-        os.mkdir(dir_name)
-    except Exception as e:
-        print(e)
-
-def create_icon_series(filename):
-    """
-    resize to 128 48 32 16
-    resolution unchanged
-    """
-    icon_dir = filename.replace('.png','')
-    make_dir(icon_dir)
-    icon_sizes = [128,48,32,16]
-
-    with Image.open(filename) as im:
-        for icon in icon_sizes:
-            icon_filename = f"{icon_dir}/icon-{str(icon)}.png"
-            tmp = im.resize((icon,icon))
-            tmp.save(icon_filename,format='png')
-
-def main():
-    """docstring"""
+if __name__ == "__main__":
     args = sys.argv[1:]
-    input_img = args[0] # eg 3-incandescent-light-bulb-science-photo-library.jpg
-    output_name = args[1] # eg lightbulb
-    filename = f'{output_name}.png'
+    input_img = args[0]
+    output_name = args[1]
 
-    im = get_img(input_img,output_name)
-    new = trim_long_side(im)
-    if new:
-        new.save(filename,format='png')
-    else:
-        im.save(filename,format='png')
-
-    create_icon_series(filename)
-    return True
-
-if __name__ == '__main__':
-    main()
+    img_obj = generateIcons(input_img, output_name)
+    img_obj.main()
