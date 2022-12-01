@@ -70,7 +70,7 @@ function buildUrl(jsonData) {
   ].join('');
   const key = [
     'key='+jsonData.manifest_name.toLowerCase().replace(' ', '-'),
-    'prod',
+    'dev',
     jsonData.manifest_version,
     jsonData.info_user_id,
     objName,
