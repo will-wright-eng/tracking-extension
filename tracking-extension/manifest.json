@@ -1,11 +1,11 @@
 {
   "name": "Tracking Extension",
+  "description": "Tracking Extension",
   "action": {
     "default_popup": "popup.html"
   },
   "manifest_version": 3,
-  "version": "0.7.3",
-  "description": "Tracking Extension",
+  "version": "0.7.4",
   "permissions": [
     "storage"
   ],

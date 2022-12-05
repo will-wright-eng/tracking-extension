@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="./popup.css" />
   </head>
-  <body>
+  <body id="parent">
     <template id="li_template">
       <li>
         <a>
@@ -22,7 +22,12 @@
     </div>
     <div>
       <button id="json-button">json</button>
-      <button id="markdown-button">markdown</button>
+    </div>
+    <div>
+      <button id="markdown-button-tab">markdown - tab</button>
+    </div>
+    <div>
+      <button id="markdown-button-window">markdown - window</button>
     </div>
 
     <script src="./popup.js" type="module"></script>

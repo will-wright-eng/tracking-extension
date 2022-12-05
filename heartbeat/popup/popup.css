@@ -38,3 +38,15 @@ h3,
 p {
   margin: 0;
 }
+
+/*
+https://stackoverflow.com/questions/6507014/how-to-space-the-children-of-a-div-with-css
+*/
+#parent > * {
+    display: block;
+    margin-top: 5px;
+}
+
+#parent > *:first-child {
+    margin-top: 0px;
+}
