@@ -5,18 +5,20 @@
 ### Tree
 
 ```bash
-$ tree . -L 2 -d
+$ tree . -d
 .
 ├── cookiecutter
-│	├── logo
-│	├── popup
-│	└── settings
+│   ├── images
+│   ├── popup
+│   └── settings
 ├── heartbeat
-│	├── images
-│	├── js
-│	└── popup
+│   ├── images
+│   ├── js
+│   └── popup
 ├── omni-search
-└── tracking_extension
+│   └── images
+├── scripts
+└── tracking-extension
     └── images
 ```
 
